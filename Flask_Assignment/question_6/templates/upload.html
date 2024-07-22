@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<head>
+    <title>Upload File</title>
+</head>
+<body>
+    <h1>Upload File</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    <a href="{{ url_for('list_files') }}">View uploaded files</a>
+</body>
+</html>

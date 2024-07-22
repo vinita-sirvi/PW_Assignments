@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Manager</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Item Manager</h1>
+        <form @submit.prevent="createItem">
+            <input v-model="newItem.name" placeholder="Item name" required>
+            <input v-model="newItem.description" placeholder="Item description">
+            <button type="submit">Add Item</button>
+        </form>
+        <ul>
+            <li v-for="item in items" :key="item.id">
+                {% raw %}{{ item.name }} - {{ item.description }}{% endraw %}
+                <button @click="updateItem(item)">Edit</button>
+                <button @click="deleteItem(item.id)">Delete</button>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                items: [],
+                newItem: { name: '', description: '' }
+            },
+            mounted() {
+                this.getItems();
+            },
+            methods: {
+                getItems() {
+                    axios.get('/items')
+                        .then(response => {
+                            this.items = response.data;
+                        })
+                        .catch(error => console.error(error));
+                },
+                createItem() {
+                    axios.post('/items', this.newItem)
+                        .then(response => {
+                            this.items.push(response.data);
+                            this.newItem = { name: '', description: '' };
+                        })
+                        .catch(error => console.error(error));
+                },
+                updateItem(item) {
+                    const updatedName = prompt('Enter new name:', item.name);
+                    const updatedDescription = prompt('Enter new description:', item.description);
+                    if (updatedName !== null && updatedDescription !== null) {
+                        axios.put(`/items/${item.id}`, { name: updatedName, description: updatedDescription })
+                            .then(response => {
+                                const index = this.items.findIndex(i => i.id === item.id);
+                                this.items.splice(index, 1, response.data);
+                            })
+                            .catch(error => console.error(error));
+                    }
+                },
+                deleteItem(itemId) {
+                    if (confirm('Are you sure you want to delete this item?')) {
+                        axios.delete(`/items/${itemId}`)
+                            .then(() => {
+                                this.items = this.items.filter(item => item.id !== itemId);
+                            })
+                            .catch(error => console.error(error));
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
