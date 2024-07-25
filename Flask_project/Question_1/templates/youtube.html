@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Trending</title>
+</head>
+<body>
+    <h1>YouTube Trending Videos</h1>
+    <ul>
+    {% for video in videos %}
+        <li>{{ video.title }} - {{ video.views }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
