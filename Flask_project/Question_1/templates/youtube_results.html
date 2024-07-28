@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>YouTube Results for "{{ query }}"</h1>
+    <a href="{{ url_for('index') }}">Back to Home</a>
+    <div class="results">
+        {% for video in videos %}
+            <div class="video">
+                <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                <h2>{{ video.title }}</h2>
+                <p>{{ video.description }}</p>
+                <a href="https://www.youtube.com/watch?v={{ video.video_id }}" target="_blank">Watch Video</a>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

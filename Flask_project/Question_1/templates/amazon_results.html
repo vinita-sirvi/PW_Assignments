@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Amazon Results for "{{ query }}"</h1>
+    <a href="{{ url_for('index') }}">Back to Home</a>
+    <div class="results">
+        {% for product in products %}
+            <div class="product">
+                <img src="{{ product.image }}" alt="{{ product.title }}">
+                <h2>{{ product.title }}</h2>
+                <p>Price: ${{ product.price }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

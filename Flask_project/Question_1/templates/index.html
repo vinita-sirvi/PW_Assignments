@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scraper App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Web Scraper App</h1>
+    <form action="{{ url_for('youtube_results') }}" method="get">
+        <input type="text" name="query" placeholder="Search YouTube">
+        <button type="submit">Search YouTube</button>
+    </form>
+    <form action="{{ url_for('amazon_results') }}" method="get">
+        <input type="text" name="query" placeholder="Search Amazon">
+        <button type="submit">Search Amazon</button>
+    </form>
+</body>
+</html>
